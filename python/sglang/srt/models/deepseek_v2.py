@@ -1784,6 +1784,12 @@ class DeepseekV2ForCausalLM(nn.Module):
                             layer_ids.add(layer_id)
 
         for layer_id in layer_ids:
+
+            # for debug, eg: `--json-model-override-args '{"num_hidden_layers": 6}'`
+            if not is_nextn:
+                if layer_id not in range(self.config.num_hidden_layers):
+                    continue
+
             self_attn = (
                 self.model.layers[layer_id].self_attn
                 if not is_nextn
